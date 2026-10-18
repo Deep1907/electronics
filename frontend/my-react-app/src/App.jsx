@@ -11,7 +11,7 @@ import { UserProvider } from './component/UserContext.jsx'
 import ProtectedRoute from './component/ProtectedRoute.jsx'
 import CartPage from "./pages/CartPage.jsx"
 
-export const backendURL = "http://localhost:8000"
+export const backendURL = "https://electronics-oman.onrender.com/"
 
 function App() {
 
