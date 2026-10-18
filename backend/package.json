@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "type": "commonjs",
-  "main": "index.js",
+  "main": "app.jsx",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.jsx",
+    "dev": "nodemon app.jsx"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
