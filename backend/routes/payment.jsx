@@ -2,6 +2,7 @@ const express = require("express");
 const isAuth = require("../middleware/isAuth.jsx");
 const instance = require("../helper/razorpay.jsx")
 const paymentModel = require("../models/PaymentSchema.jsx")
+const {validateWebhookSignature} = require("razorpay/dist/utils/razorpay-utils.js")
 
 const paymentRouter = express.Router()
 
@@ -45,5 +46,33 @@ paymentRouter.post("/create", isAuth , async (req,res)=>{
 }
 
 })
+
+paymentRouter.post("/webhook",async (req,res)=>{
+    try{
+        const webhookSignature = req.headers("X-Razorpay-Signature")
+        const isWebhookValid = validateWebhookSignature(JSON.Stringify(req.body),webhookSignature,process.env.WEBHOOK_SECRET)
+        if(!isWebhookValid){
+            res.status(400).json({success:false,message:"Webhook not valid"})
+        }
+
+        const paymentDetails = req.body.payload.payment.entity
+        const payment = await paymentModel.findOne({orderId : paymentDetails.order_id})
+        payment.status = paymentDetails.status
+        await payment.save()
+
+
+        return res.status(200).json({success:true,message:"Webhook Received Successfully"})
+    }catch(err){
+        console.log(err)
+    }
+})
+
+paymentRouter.get("/verify", isAuth, async (req,res)=>{
+    const user = req.user
+    if(user){
+        return res.status(200).json({success:true,message:"Verified Successfully"})
+    }
+})
+
 
 module.exports = paymentRouter;
