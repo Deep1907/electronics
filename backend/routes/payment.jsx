@@ -68,10 +68,13 @@ paymentRouter.post("/webhook",async (req,res)=>{
 })
 
 paymentRouter.get("/verify", isAuth, async (req,res)=>{
-    const user = req.user
-    if(user){
+    try{
+        const {razorpay_payment_id,razorpay_order_id,razorpay_signature} = req.body
         return res.status(200).json({success:true,message:"Verified Successfully"})
+    }catch(err){
+        console.log(err)
     }
+
 })
 
 
