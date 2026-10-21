@@ -2,7 +2,7 @@ import './App.css'
 import AdminLogin from './components/AdminLogin.jsx'
 import AdminHome from './pages/adminHome.jsx'
 
-export const backendURL = "http://localhost:8000"
+export const backendURL = "https://electronics-oman.onrender.com/"
 
 import {BrowserRouter,Routes,Route} from "react-router-dom"
 
